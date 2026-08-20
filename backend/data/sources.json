@@ -1,0 +1,104 @@
+{
+  "sources": [
+    {
+      "id": "rti_act_2005_text",
+      "workflow_ids": ["rti_application"],
+      "title": {
+        "en": "The Right to Information Act, 2005 (Full Text)",
+        "hi": "सूचना का अधिकार अधिनियम, 2005 (पूर्ण पाठ)"
+      },
+      "authority_id": "central_pio_generic",
+      "url": "https://rti.gov.in/",
+      "type": "statute",
+      "description": {
+        "en": "Official Government of India RTI portal with the Act text, rules, and FAQs.",
+        "hi": "आरटीआई अधिनियम, नियम और सामान्य प्रश्नों के साथ आधिकारिक पोर्टल।"
+      },
+      "verify_before_use": true
+    },
+    {
+      "id": "rti_online_portal",
+      "workflow_ids": ["rti_application"],
+      "title": {
+        "en": "RTI Online — Submit Central Government RTI Applications",
+        "hi": "आरटीआई ऑनलाइन — केंद्र सरकार आवेदन जमा करें"
+      },
+      "authority_id": "central_pio_generic",
+      "url": "https://rtionline.gov.in/",
+      "type": "portal",
+      "description": {
+        "en": "Portal for filing RTI applications online to central government ministries/departments.",
+        "hi": "केंद्र सरकार मंत्रालयों/विभागों को ऑनलाइन आरटीआई आवेदन जमा करने का पोर्टल।"
+      },
+      "verify_before_use": true
+    },
+    {
+      "id": "cic_portal",
+      "workflow_ids": ["rti_application"],
+      "title": {
+        "en": "Central Information Commission — Official Site",
+        "hi": "केंद्रीय सूचना आयोग — आधिकारिक वेबसाइट"
+      },
+      "authority_id": "central_information_commission",
+      "url": "https://cic.gov.in/",
+      "type": "portal",
+      "description": {
+        "en": "For filing second appeals and complaints against central departments.",
+        "hi": "केंद्रीय विभागों के विरुद्ध द्वितीय अपील और शिकायत दर्ज करने के लिए।"
+      },
+      "verify_before_use": true
+    },
+    {
+      "id": "model_tenancy_act_text",
+      "workflow_ids": ["tenant_security_deposit"],
+      "title": {
+        "en": "Model Tenancy Act, 2021 (Ministry of Housing and Urban Affairs)",
+        "hi": "मॉडल किरायेदारी अधिनियम, 2021"
+      },
+      "authority_id": "rent_authority_generic",
+      "url": "https://mohua.gov.in/",
+      "type": "statute",
+      "description": {
+        "en": "Central model law states may adopt for tenancy regulation, including security deposit caps and return timelines.",
+        "hi": "किरायेदारी विनियमन हेतु केंद्रीय मॉडल कानून, जिसमें सुरक्षा जमा सीमा और वापसी समयसीमा शामिल है।"
+      },
+      "verify_before_use": true
+    },
+    {
+      "id": "state_rent_control_note",
+      "workflow_ids": ["tenant_security_deposit"],
+      "title": {
+        "en": "State-Specific Rent Control Act (lookup required per state)",
+        "hi": "राज्य-विशिष्ट किराया नियंत्रण अधिनियम (राज्य अनुसार खोज आवश्यक)"
+      },
+      "authority_id": "rent_authority_generic",
+      "url": null,
+      "type": "statute_placeholder",
+      "description": {
+        "en": "Placeholder entry: actual Rent Control Act / adoption status of the Model Tenancy Act must be looked up for the user's specific state before citing.",
+        "hi": "प्लेसहोल्डर प्रविष्टि: उपयोगकर्ता के राज्य के लिए वास्तविक किराया नियंत्रण अधिनियम की जांच आवश्यक है।"
+      },
+      "verify_before_use": true
+    },
+    {
+      "id": "consumer_helpline_placeholder",
+      "workflow_ids": [],
+      "title": {
+        "en": "National Consumer Helpline (future: consumer grievance workflow)",
+        "hi": "राष्ट्रीय उपभोक्ता हेल्पलाइन (भविष्य: उपभोक्ता शिकायत वर्कफ़्लो)"
+      },
+      "authority_id": null,
+      "url": "https://consumerhelpline.gov.in/",
+      "type": "portal",
+      "description": {
+        "en": "Reserved for the future consumer grievance workflow, out of scope for the 4-day MVP.",
+        "hi": "भविष्य के उपभोक्ता शिकायत वर्कफ़्लो के लिए आरक्षित, 4-दिवसीय MVP के दायरे से बाहर।"
+      },
+      "verify_before_use": true
+    }
+  ],
+  "notes": {
+    "en": "Every URL flagged verify_before_use must be manually checked for validity by Member 3 before Day 3 demo. Do not let Gemma or retrieval fabricate URLs not present in this file — deterministic code should only surface sources listed here.",
+    "hi": "verify_before_use के रूप में चिह्नित प्रत्येक URL को Day 3 डेमो से पहले सदस्य 3 द्वारा मैन्युअल रूप से जांचा जाना चाहिए।"
+  }
+}

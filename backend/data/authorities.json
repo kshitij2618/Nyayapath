@@ -1,0 +1,73 @@
+{
+  "authorities": [
+    {
+      "id": "central_pio_generic",
+      "workflow_ids": ["rti_application"],
+      "name": {
+        "en": "Public Information Officer (PIO) — Concerned Department",
+        "hi": "जन सूचना अधिकारी (PIO) — संबंधित विभाग"
+      },
+      "jurisdiction": "varies_by_department",
+      "role": {
+        "en": "Receives and responds to RTI applications for their department within statutory timelines.",
+        "hi": "अपने विभाग के लिए आरटीआई आवेदन प्राप्त करते हैं और वैधानिक समय सीमा में जवाब देते हैं।"
+      },
+      "contact_lookup_note": {
+        "en": "PIO contact details must be looked up per department; no single national directory covers all departments.",
+        "hi": "PIO संपर्क विवरण विभाग अनुसार खोजने होंगे।"
+      }
+    },
+    {
+      "id": "central_information_commission",
+      "workflow_ids": ["rti_application"],
+      "name": {
+        "en": "Central Information Commission (CIC)",
+        "hi": "केंद्रीय सूचना आयोग (CIC)"
+      },
+      "jurisdiction": "central_government_departments",
+      "role": {
+        "en": "Hears second appeals for RTI applications filed with central government departments.",
+        "hi": "केंद्र सरकार के विभागों से संबंधित आरटीआई द्वितीय अपीलों की सुनवाई करता है।"
+      }
+    },
+    {
+      "id": "state_information_commission",
+      "workflow_ids": ["rti_application"],
+      "name": {
+        "en": "State Information Commission (SIC)",
+        "hi": "राज्य सूचना आयोग (SIC)"
+      },
+      "jurisdiction": "state_specific",
+      "role": {
+        "en": "Hears second appeals for RTI applications filed with state government departments. Contact varies by state.",
+        "hi": "राज्य सरकार विभागों से संबंधित आरटीआई द्वितीय अपीलों की सुनवाई करता है।"
+      }
+    },
+    {
+      "id": "rent_authority_generic",
+      "workflow_ids": ["tenant_security_deposit"],
+      "name": {
+        "en": "Rent Authority / Rent Controller",
+        "hi": "किराया प्राधिकरण / किराया नियंत्रक"
+      },
+      "jurisdiction": "state_specific",
+      "role": {
+        "en": "Adjudicates rent and deposit disputes in states that have adopted the Model Tenancy Act or maintain a Rent Control framework. Availability and process vary by state.",
+        "hi": "उन राज्यों में किराया और जमा विवादों का निपटारा करता है जहाँ मॉडल किरायेदारी अधिनियम अपनाया गया है या किराया नियंत्रण ढांचा मौजूद है।"
+      }
+    },
+    {
+      "id": "small_causes_court",
+      "workflow_ids": ["tenant_security_deposit"],
+      "name": {
+        "en": "Small Causes Court / Civil Court",
+        "hi": "लघु वाद न्यायालय / सिविल न्यायालय"
+      },
+      "jurisdiction": "district_specific",
+      "role": {
+        "en": "Handles civil disputes including deposit recovery where no dedicated rent authority exists or the amount/nature of dispute requires it.",
+        "hi": "जहाँ कोई समर्पित किराया प्राधिकरण नहीं है, वहाँ जमा वसूली सहित सिविल विवादों को संभालता है।"
+      }
+    }
+  ]
+}
