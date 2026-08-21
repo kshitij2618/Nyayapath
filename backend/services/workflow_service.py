@@ -2233,6 +2233,10 @@ class WorkflowService:
         # UNSUPPORTED
         # -----------------------------------------------------
 
+        # -----------------------------------------------------
+# GENERIC FALLBACK
+# -----------------------------------------------------
+
         if not workflow:
 
             return {
@@ -2246,23 +2250,74 @@ class WorkflowService:
 
                 "authorities": [],
 
-                "action_plan": [],
+                "action_plan": [
+                    {
+                        "step": 1,
+                        "en": (
+                            "Collect and preserve all documents, receipts, "
+                            "messages, emails, photographs, and other evidence "
+                            "related to the issue."
+                        ),
+                        "hi": (
+                            "समस्या से संबंधित सभी दस्तावेज़, रसीदें, संदेश, "
+                            "ईमेल, फोटो और अन्य साक्ष्य एकत्र करके सुरक्षित रखें।"
+                        ),
+                    },
+                    {
+                        "step": 2,
+                        "en": (
+                            "Contact the concerned person, company, department, "
+                            "or authority through an official channel where appropriate."
+                        ),
+                        "hi": (
+                            "जहां उचित हो, संबंधित व्यक्ति, कंपनी, विभाग या "
+                            "प्राधिकरण से आधिकारिक माध्यम से संपर्क करें।"
+                        ),
+                    },
+                    {
+                        "step": 3,
+                        "en": (
+                            "Keep a record of your complaint and any response "
+                            "you receive."
+                        ),
+                        "hi": (
+                            "अपनी शिकायत और प्राप्त होने वाले किसी भी जवाब "
+                            "का रिकॉर्ड सुरक्षित रखें।"
+                        ),
+                    },
+                ],
 
-                "evidence": [],
+                "evidence": [
+                    {
+                        "id": "supporting_documents",
+                        "en": "Relevant documents and records related to the issue.",
+                        "hi": "समस्या से संबंधित दस्तावेज़ और रिकॉर्ड।",
+                    },
+                    {
+                        "id": "communication_records",
+                        "en": "Copies of relevant messages, emails, notices, and communications.",
+                        "hi": "संबंधित संदेशों, ईमेल, नोटिस और पत्राचार की प्रतियां।",
+                    },
+                ],
 
                 "escalation": {
                     "appropriate": False,
-                    "reason": None,
+                    "reason": (
+                        "No specialized workflow is currently available for "
+                        "this category and intent."
+                    ),
                     "authorities": [],
                 },
 
                 "sources": [],
 
-                "disclaimer":
-                    "NyayaPath could not identify a supported "
-                    "workflow for this request.",
+                "disclaimer": (
+                    "NyayaPath understood the issue, but a specialized workflow "
+                    "for this category and intent is not currently available. "
+                    "The guidance provided is general and should be verified "
+                    "against the applicable law and authority."
+                ),
             }
-
         # -----------------------------------------------------
         # WORKFLOW ID
         # -----------------------------------------------------
@@ -2521,7 +2576,7 @@ class WorkflowService:
                     None,
 
                 "supported":
-                    False,
+                    True,
 
                 "legal_support":
                     [],
@@ -2545,13 +2600,13 @@ class WorkflowService:
                     [],
 
                 "disclaimer":
-                    "NyayaPath could not identify a "
-                    "supported workflow for this request.",
+                    "General guidance provided because no specific workflow was matched. "
+                    "Verify applicable laws and authorities before taking legal action.",
 
                 "final_recommendation":
                     {
-                        "workflow": None,
-                        "workflow_name": None,
+                        "workflow": "general_guidance",
+                        "workflow_name": "General Legal/Civic Guidance",
                         "legal_support": [],
                         "documents": [],
                         "authorities": [],
