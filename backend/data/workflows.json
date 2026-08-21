@@ -1,156 +1,258 @@
 {
-  "workflows": [
+  "workflow_data": [
     {
-      "id": "rti_application",
-      "name": {
-        "en": "Right to Information (RTI) Application",
-        "hi": "सूचना का अधिकार (आरटीआई) आवेदन"
+      "category": "RTI",
+      "intents": [
+        {
+          "id": "rti_status_check",
+          "description": "User wants to know the status of a government application, file, or process (e.g. passport, ration card, recruitment result)."
+        },
+        {
+          "id": "rti_reason_or_justification",
+          "description": "User wants to know why a decision was made or why something was rejected/delayed by a government body."
+        },
+        {
+          "id": "rti_records_or_documents",
+          "description": "User wants copies of specific government records, documents, or file notings."
+        },
+        {
+          "id": "rti_spending_or_budget",
+          "description": "User wants to know how public money was spent on a project (road, park, water supply, etc.)."
+        },
+        {
+          "id": "rti_no_response_followup",
+          "description": "User already filed an RTI and is following up because of no response or an unsatisfactory response — this routes to appeal, not a fresh application."
+        }
+      ],
+      "initial_advice": {
+        "en": "You can use the Right to Information Act, 2005 to formally request this information from the concerned government department. It's a legal right, response is time-bound, and no reason needs to be given for asking.",
+        "hi": "आप सूचना का अधिकार अधिनियम, 2005 के तहत संबंधित सरकारी विभाग से औपचारिक रूप से यह जानकारी मांग सकते हैं। यह आपका कानूनी अधिकार है, जवाब समय-सीमा में देना अनिवार्य है, और पूछने का कारण बताना ज़रूरी नहीं।"
       },
-      "description": {
-        "en": "For citizens seeking official information, records, or documents from a government department or public authority.",
-        "hi": "सरकारी विभाग या सार्वजनिक प्राधिकरण से आधिकारिक जानकारी, रिकॉर्ड या दस्तावेज़ माँगने वाले नागरिकों के लिए।"
-      },
-      "trigger_keywords": ["information", "record", "file status", "government department", "जानकारी", "रिकॉर्ड", "फ़ाइल की स्थिति"],
-      "required_questions": [
+      "questions": [
         {
           "id": "q_department",
-          "text": {
-            "en": "Which government department or office is this about?",
-            "hi": "यह किस सरकारी विभाग या कार्यालय से संबंधित है?"
-          },
-          "why_asked": {
-            "en": "We need this to identify the correct Public Information Officer (PIO) to address your application to.",
-            "hi": "सही जन सूचना अधिकारी (PIO) की पहचान के लिए यह आवश्यक है।"
-          },
-          "field_type": "text",
-          "required": true
+          "en": "Which government department or office is this about?",
+          "hi": "यह किस सरकारी विभाग या कार्यालय से संबंधित है?",
+          "affects": ["authority_selection", "application_procedure", "sources"]
         },
         {
           "id": "q_info_sought",
-          "text": {
-            "en": "What specific information or documents are you seeking?",
-            "hi": "आप विशेष रूप से कौन सी जानकारी या दस्तावेज़ चाहते हैं?"
-          },
-          "why_asked": {
-            "en": "RTI applications must clearly state the exact information requested.",
-            "hi": "आरटीआई आवेदन में मांगी गई जानकारी स्पष्ट रूप से लिखी जानी चाहिए।"
-          },
-          "field_type": "textarea",
-          "required": true
-        },
-        {
-          "id": "q_time_period",
-          "text": {
-            "en": "Does this relate to a specific date, time period, or file/reference number?",
-            "hi": "क्या यह किसी विशेष तिथि, समयावधि या फ़ाइल/संदर्भ संख्या से संबंधित है?"
-          },
-          "field_type": "text",
-          "required": false
+          "en": "What specific information or documents are you looking for?",
+          "hi": "आप विशेष रूप से कौन सी जानकारी या दस्तावेज़ चाहते हैं?",
+          "affects": ["application_draft", "legal_support"]
         },
         {
           "id": "q_state",
-          "text": {
-            "en": "Which state are you located in?",
-            "hi": "आप किस राज्य में हैं?"
-          },
-          "why_asked": {
-            "en": "RTI is governed centrally, but state-level departments follow state RTI rules and fee structures.",
-            "hi": "आरटीआई केंद्रीय कानून है, परंतु राज्य विभागों के लिए राज्य के नियम और शुल्क लागू होते हैं।"
-          },
-          "field_type": "text",
-          "required": true
+          "en": "Which state is this department located in?",
+          "hi": "यह विभाग किस राज्य में है?",
+          "affects": ["fee_amount", "appeal_authority", "sources"]
+        },
+        {
+          "id": "q_already_filed",
+          "en": "Have you already filed an RTI application on this, or is this your first time?",
+          "hi": "क्या आपने इस पर पहले से आरटीआई दायर की है, या यह पहली बार है?",
+          "affects": ["workflow_branch (fresh_application vs first_appeal)"]
         }
       ],
-      "required_documents": [
-        {"id": "id_proof", "name": {"en": "Any government ID (optional, not mandatory under RTI Act)", "hi": "कोई सरकारी पहचान पत्र (वैकल्पिक)"}},
-        {"id": "fee_proof", "name": {"en": "Application fee receipt/proof of payment", "hi": "आवेदन शुल्क रसीद"}},
-        {"id": "reference_docs", "name": {"en": "Any prior correspondence or reference number related to the query", "hi": "प्रश्न से संबंधित पूर्व पत्राचार या संदर्भ संख्या"}}
-      ],
-      "action_plan_template": [
-        {"step": 1, "en": "Identify the correct Public Information Officer (PIO) for the concerned department.", "hi": "संबंधित विभाग के सही जन सूचना अधिकारी (PIO) की पहचान करें।"},
-        {"step": 2, "en": "Draft the RTI application clearly stating the information sought.", "hi": "मांगी गई जानकारी स्पष्ट रूप से बताते हुए आरटीआई आवेदन तैयार करें।"},
-        {"step": 3, "en": "Pay the prescribed application fee (commonly ₹10, varies by state; fee-exempt for BPL applicants).", "hi": "निर्धारित आवेदन शुल्क का भुगतान करें (सामान्यतः ₹10, राज्य अनुसार भिन्न; बीपीएल आवेदकों के लिए शुल्क माफ)।"},
-        {"step": 4, "en": "Submit the application in person, by post, or online (where an RTI portal exists for that department).", "hi": "आवेदन व्यक्तिगत रूप से, डाक द्वारा, या ऑनलाइन जमा करें (जहाँ पोर्टल उपलब्ध हो)।"},
-        {"step": 5, "en": "The department must respond within 30 days (48 hours if life/liberty is involved).", "hi": "विभाग को 30 दिनों के भीतर जवाब देना आवश्यक है (यदि जीवन/स्वतंत्रता से संबंधित हो तो 48 घंटे में)।"},
-        {"step": 6, "en": "If no response or an unsatisfactory response is received, file a First Appeal within 30 days of the deadline.", "hi": "यदि कोई जवाब न मिले या असंतोषजनक हो, तो समय सीमा के 30 दिनों के भीतर प्रथम अपील दायर करें।"}
-      ],
-      "disclaimer": {
-        "en": "This is general information based on the Right to Information Act, 2005, and may not reflect state-specific amendments or department-specific procedures. Verify current fees, formats, and PIO details with the relevant department before submitting.",
-        "hi": "यह सूचना का अधिकार अधिनियम, 2005 पर आधारित सामान्य जानकारी है और राज्य-विशिष्ट संशोधनों को नहीं दर्शा सकती। जमा करने से पहले संबंधित विभाग से शुल्क, प्रारूप और PIO विवरण सत्यापित करें।"
+      "optional_followup": {
+        "en": "Anything else you'd like to tell us?",
+        "hi": "क्या आप हमें कुछ और बताना चाहेंगे?"
       },
-      "fallback_conditions": [
-        {"condition": "department_unidentifiable", "action": "ask_user_to_clarify_department"},
-        {"condition": "info_request_too_vague", "action": "ask_followup_for_specificity"},
-        {"condition": "jurisdiction_unsupported", "action": "show_general_rti_guidance_with_caveat"}
+      "legal_support": [
+        {
+          "law": "Right to Information Act, 2005",
+          "explanation": {
+            "en": "Gives every citizen the right to request information from a 'public authority', which must reply within 30 days (48 hours if life or liberty is involved).",
+            "hi": "यह हर नागरिक को 'सार्वजनिक प्राधिकरण' से जानकारी मांगने का अधिकार देता है, जिसे 30 दिनों में जवाब देना आवश्यक है (48 घंटे अगर जीवन या स्वतंत्रता से संबंधित हो)।"
+          },
+          "jurisdiction": "national",
+          "source_id": "rti_act_2005_text"
+        },
+        {
+          "law": "RTI Rules (fee structure)",
+          "explanation": {
+            "en": "Application fee is commonly ₹10 for central departments; state fees vary. Fee is waived for applicants below the poverty line (BPL).",
+            "hi": "केंद्रीय विभागों के लिए आवेदन शुल्क सामान्यतः ₹10 है; राज्य अनुसार भिन्न। बीपीएल आवेदकों के लिए शुल्क माफ है।"
+          },
+          "jurisdiction": "varies_by_state",
+          "source_id": "rti_act_2005_text",
+          "note": "State-specific fee amount must be verified per state before quoting an exact figure."
+        }
+      ],
+      "actions": [
+        {"step": 1, "en": "Identify the Public Information Officer (PIO) for the concerned department.", "hi": "संबंधित विभाग के जन सूचना अधिकारी (PIO) की पहचान करें।"},
+        {"step": 2, "en": "Draft the RTI application, clearly and specifically stating the information sought.", "hi": "मांगी गई जानकारी स्पष्ट रूप से बताते हुए आरटीआई आवेदन तैयार करें।"},
+        {"step": 3, "en": "Pay the prescribed application fee.", "hi": "निर्धारित आवेदन शुल्क का भुगतान करें।"},
+        {"step": 4, "en": "Submit the application in person, by post, or via the online RTI portal (where available for that department).", "hi": "आवेदन व्यक्तिगत रूप से, डाक द्वारा, या ऑनलाइन पोर्टल के माध्यम से जमा करें।"},
+        {"step": 5, "en": "Wait for the response, due within 30 days (48 hours for life/liberty matters).", "hi": "30 दिनों के भीतर जवाब की प्रतीक्षा करें (जीवन/स्वतंत्रता मामलों में 48 घंटे)।"},
+        {"step": 6, "en": "If no response or an unsatisfactory response, file a First Appeal within 30 days of the deadline.", "hi": "यदि जवाब न मिले या असंतोषजनक हो, समय सीमा के 30 दिनों के भीतर प्रथम अपील दायर करें।"}
+      ],
+      "evidence": [
+        {"id": "application_copy", "en": "Copy of the submitted RTI application", "hi": "जमा की गई आरटीआई आवेदन की प्रति"},
+        {"id": "fee_receipt", "en": "Fee payment receipt", "hi": "शुल्क भुगतान रसीद"},
+        {"id": "postal_or_submission_proof", "en": "Postal receipt or online submission acknowledgment", "hi": "डाक रसीद या ऑनलाइन जमा पावती"},
+        {"id": "any_response_received", "en": "Any response or partial response received from the department", "hi": "विभाग से प्राप्त कोई भी जवाब या आंशिक जवाब"}
+      ],
+      "escalation": [
+        {"level": 1, "en": "First Appeal to the department's Appellate Authority within 30 days of the response deadline.", "hi": "जवाब की समय सीमा के 30 दिनों के भीतर विभाग के अपीलीय प्राधिकारी को प्रथम अपील।"},
+        {"level": 2, "en": "Second Appeal to the Central Information Commission (for central departments) or State Information Commission (for state departments) if the First Appeal is unsatisfactory.", "hi": "यदि प्रथम अपील असंतोषजनक हो, तो केंद्रीय सूचना आयोग (केंद्रीय विभागों के लिए) या राज्य सूचना आयोग (राज्य विभागों के लिए) को द्वितीय अपील।"}
+      ],
+      "documents": {
+        "type": "rti_application",
+        "applicable_when": "info_sought and department are known",
+        "en": "Generate a ready-to-edit RTI application addressed to the identified PIO, stating the information sought.",
+        "hi": "पहचाने गए PIO को संबोधित एक तैयार आरटीआई आवेदन तैयार करें, जिसमें मांगी गई जानकारी स्पष्ट रूप से बताई गई हो।"
+      },
+      "sources": [
+        {"source_id": "rti_act_2005_text", "title": "The Right to Information Act, 2005 (Full Text)", "url": "https://rti.gov.in/"},
+        {"source_id": "rti_online_portal", "title": "RTI Online — Central Government Applications", "url": "https://rtionline.gov.in/"},
+        {"source_id": "cic_portal", "title": "Central Information Commission — Official Site", "url": "https://cic.gov.in/"}
+      ],
+      "out_of_scope_examples": [
+        {"en": "RTI cannot be filed against a private company — it only applies to public authorities.", "hi": "आरटीआई किसी निजी कंपनी के विरुद्ध दायर नहीं की जा सकती — यह केवल सार्वजनिक प्राधिकरणों पर लागू होती है।"}
       ]
     },
     {
-      "id": "tenant_security_deposit",
-      "name": {
-        "en": "Tenant Grievance — Security Deposit Dispute",
-        "hi": "किरायेदार शिकायत — सुरक्षा जमा विवाद"
+      "category": "Tenant/Security Deposit",
+      "intents": [
+        {
+          "id": "deposit_withheld_no_reason",
+          "description": "Landlord is withholding the security deposit without giving a clear reason."
+        },
+        {
+          "id": "deposit_partial_deduction_dispute",
+          "description": "Landlord returned only part of the deposit, citing damages or dues the tenant disputes."
+        },
+        {
+          "id": "deposit_delayed",
+          "description": "Deposit has not been returned yet, but no explicit refusal — just delay."
+        },
+        {
+          "id": "no_written_agreement",
+          "description": "Tenant had only a verbal agreement and is unsure of their rights."
+        },
+        {
+          "id": "general_deposit_rules_query",
+          "description": "User is asking about deposit rules/caps in general, not reporting an active dispute."
+        }
+      ],
+      "initial_advice": {
+        "en": "Start with a written notice to your landlord formally requesting the deposit back. Keep all evidence — your agreement, payment proof, and any communication — since these matter if the dispute escalates.",
+        "hi": "सबसे पहले मकान मालिक को औपचारिक लिखित नोटिस भेजें जिसमें जमा राशि वापस मांगें। अपना समझौता, भुगतान प्रमाण और सभी पत्राचार सुरक्षित रखें, क्योंकि विवाद बढ़ने पर ये महत्वपूर्ण होंगे।"
       },
-      "description": {
-        "en": "For tenants facing withheld, delayed, or partially returned security deposits after vacating a rented property.",
-        "hi": "किराए की संपत्ति खाली करने के बाद सुरक्षा जमा राशि रोके जाने, देरी से या आंशिक रूप से लौटाए जाने की समस्या वाले किरायेदारों के लिए।"
-      },
-      "trigger_keywords": ["security deposit", "landlord", "rent agreement", "vacated", "सुरक्षा जमा", "मकान मालिक", "किराया समझौता"],
-      "required_questions": [
+      "questions": [
         {
           "id": "q_state",
-          "text": {"en": "Which state is the rented property located in?", "hi": "किराए की संपत्ति किस राज्य में स्थित है?"},
-          "why_asked": {"en": "Tenancy law in India is state-specific (Rent Control Acts / Model Tenancy Act adoption varies by state).", "hi": "भारत में किरायेदारी कानून राज्य-विशिष्ट है।"},
-          "field_type": "text",
-          "required": true
+          "en": "Which state is the rented property in?",
+          "hi": "किराए की संपत्ति किस राज्य में है?",
+          "affects": ["applicable_law", "escalation_authority", "sources"]
         },
         {
           "id": "q_agreement_exists",
-          "text": {"en": "Do you have a written rental/lease agreement?", "hi": "क्या आपके पास लिखित किराया/पट्टा समझौता है?"},
-          "field_type": "boolean",
-          "required": true
+          "en": "Do you have a written rental/lease agreement?",
+          "hi": "क्या आपके पास लिखित किराया/पट्टा समझौता है?",
+          "affects": ["evidence_strategy", "legal_support"]
         },
         {
           "id": "q_vacate_date",
-          "text": {"en": "When did you vacate the property?", "hi": "आपने संपत्ति कब खाली की?"},
-          "field_type": "date",
-          "required": true
-        },
-        {
-          "id": "q_amount_disputed",
-          "text": {"en": "What amount is being withheld, and has the landlord given a reason?", "hi": "कितनी राशि रोकी गई है, और क्या मकान मालिक ने कोई कारण बताया है?"},
-          "field_type": "textarea",
-          "required": true
+          "en": "When did you vacate the property, and has it been more than the notice period specified in your agreement?",
+          "hi": "आपने संपत्ति कब खाली की, और क्या समझौते में तय नोटिस अवधि से अधिक समय बीत चुका है?",
+          "affects": ["escalation_readiness"]
         },
         {
           "id": "q_prior_communication",
-          "text": {"en": "Have you already contacted the landlord in writing (email, message, notice)?", "hi": "क्या आपने पहले ही मकान मालिक से लिखित रूप में संपर्क किया है?"},
-          "field_type": "boolean",
-          "required": true
+          "en": "Have you already contacted the landlord in writing about this?",
+          "hi": "क्या आपने पहले ही मकान मालिक से इस बारे में लिखित रूप में संपर्क किया है?",
+          "affects": ["workflow_branch (send_notice vs escalate_directly)"]
         }
       ],
-      "required_documents": [
-        {"id": "rental_agreement", "name": {"en": "Rental/lease agreement copy", "hi": "किराया/पट्टा समझौते की प्रति"}},
-        {"id": "payment_proof", "name": {"en": "Proof of original deposit payment", "hi": "मूल जमा राशि के भुगतान का प्रमाण"}},
-        {"id": "vacate_proof", "name": {"en": "Proof of vacating date (handover email, utility closure, etc.)", "hi": "खाली करने की तिथि का प्रमाण"}},
-        {"id": "condition_evidence", "name": {"en": "Photos/videos of property condition at handover, if available", "hi": "सौंपते समय संपत्ति की स्थिति के फोटो/वीडियो, यदि उपलब्ध हों"}},
-        {"id": "correspondence", "name": {"en": "Copies of any written communication with the landlord", "hi": "मकान मालिक के साथ लिखित पत्राचार की प्रतियाँ"}}
-      ],
-      "action_plan_template": [
-        {"step": 1, "en": "Send a formal written notice to the landlord requesting deposit return within a specified period.", "hi": "मकान मालिक को औपचारिक लिखित नोटिस भेजें।"},
-        {"step": 2, "en": "Reference the specific clause in your rental agreement covering deposit return, if one exists.", "hi": "समझौते में जमा वापसी संबंधी खंड का संदर्भ दें, यदि मौजूद हो।"},
-        {"step": 3, "en": "If unresolved, approach the Rent Authority / Rent Controller applicable in your state, where established.", "hi": "समाधान न होने पर राज्य के किराया प्राधिकरण/किराया नियंत्रक से संपर्क करें।"},
-        {"step": 4, "en": "Alternatively, file a case in the Small Causes Court or relevant civil/consumer forum depending on amount and state rules.", "hi": "वैकल्पिक रूप से लघु वाद न्यायालय या संबंधित फोरम में मामला दर्ज करें।"},
-        {"step": 5, "en": "Retain all evidence (agreement, payment proof, photos, communication) for the dispute process.", "hi": "सभी साक्ष्य सुरक्षित रखें।"}
-      ],
-      "disclaimer": {
-        "en": "Tenancy and rent control rules vary significantly by state in India. This guidance is general in nature. Consult your state's Rent Control Act, Model Tenancy Act adoption status, or a local legal aid service for precise procedure and forum.",
-        "hi": "भारत में किरायेदारी और किराया नियंत्रण नियम राज्य अनुसार भिन्न होते हैं। यह सामान्य मार्गदर्शन है। सटीक प्रक्रिया के लिए अपने राज्य के कानून या स्थानीय कानूनी सहायता सेवा से परामर्श करें।"
+      "optional_followup": {
+        "en": "Anything else you'd like to tell us?",
+        "hi": "क्या आप हमें कुछ और बताना चाहेंगे?"
       },
-      "fallback_conditions": [
-        {"condition": "state_unsupported", "action": "show_general_tenant_rights_with_caveat"},
-        {"condition": "no_written_agreement", "action": "provide_guidance_for_oral_agreements"},
-        {"condition": "amount_or_reason_unclear", "action": "ask_followup_for_specificity"}
+      "legal_support": [
+        {
+          "law": "Model Tenancy Act, 2021",
+          "explanation": {
+            "en": "A central model law (adoption varies by state) that caps security deposits and sets timelines for their return after the tenant vacates.",
+            "hi": "एक केंद्रीय मॉडल कानून (राज्य अनुसार अपनाया जाना भिन्न) जो सुरक्षा जमा की सीमा तय करता है और खाली करने के बाद वापसी की समयसीमा निर्धारित करता है।"
+          },
+          "jurisdiction": "varies_by_state_adoption",
+          "source_id": "model_tenancy_act_text",
+          "note": "Only applicable in states that have adopted or referenced this model law — must be verified per state."
+        },
+        {
+          "law": "State-specific Rent Control Act",
+          "explanation": {
+            "en": "Most Indian states have their own Rent Control Act governing deposits, notice periods, and dispute forums — details differ significantly by state.",
+            "hi": "अधिकतर भारतीय राज्यों का अपना किराया नियंत्रण अधिनियम है जो जमा, नोटिस अवधि और विवाद फोरम को नियंत्रित करता है — विवरण राज्य अनुसार काफी भिन्न होते हैं।"
+          },
+          "jurisdiction": "state_specific",
+          "source_id": "state_rent_control_note",
+          "note": "Placeholder — actual state act must be looked up before citing specific provisions."
+        }
+      ],
+      "actions": [
+        {"step": 1, "en": "Send a formal written notice to the landlord requesting deposit return, referencing any relevant agreement clause.", "hi": "मकान मालिक को औपचारिक लिखित नोटिस भेजें, जिसमें समझौते के संबंधित खंड का संदर्भ हो।"},
+        {"step": 2, "en": "Give a reasonable response window (commonly 15–30 days) before escalating.", "hi": "आगे बढ़ने से पहले एक उचित समय (सामान्यतः 15-30 दिन) दें।"},
+        {"step": 3, "en": "If unresolved, approach the Rent Authority / Rent Controller applicable in your state, where established.", "hi": "समाधान न होने पर राज्य के किराया प्राधिकरण/किराया नियंत्रक से संपर्क करें, जहां उपलब्ध हो।"},
+        {"step": 4, "en": "Alternatively, file in Small Causes Court or the relevant civil forum depending on the amount and state rules.", "hi": "वैकल्पिक रूप से राशि और राज्य नियमों के अनुसार लघु वाद न्यायालय या संबंधित सिविल फोरम में मामला दर्ज करें।"}
+      ],
+      "evidence": [
+        {"id": "rental_agreement", "en": "Rental/lease agreement copy (if written)", "hi": "किराया/पट्टा समझौते की प्रति (यदि लिखित हो)"},
+        {"id": "payment_proof", "en": "Proof of original deposit payment", "hi": "मूल जमा राशि के भुगतान का प्रमाण"},
+        {"id": "vacate_proof", "en": "Proof of vacating date (handover confirmation, utility closure, etc.)", "hi": "खाली करने की तिथि का प्रमाण"},
+        {"id": "condition_photos", "en": "Photos/videos of property condition at handover", "hi": "सौंपते समय संपत्ति की स्थिति के फोटो/वीडियो"},
+        {"id": "written_communication", "en": "Copies of all written communication with the landlord", "hi": "मकान मालिक के साथ सभी लिखित पत्राचार की प्रतियां"}
+      ],
+      "escalation": [
+        {"level": 1, "en": "Written notice to the landlord with a clear deadline.", "hi": "स्पष्ट समय सीमा के साथ मकान मालिक को लिखित नोटिस।"},
+        {"level": 2, "en": "Complaint to the state Rent Authority / Rent Controller, where such a body exists.", "hi": "राज्य किराया प्राधिकरण/किराया नियंत्रक को शिकायत, जहां ऐसा निकाय मौजूद हो।"},
+        {"level": 3, "en": "Civil suit in Small Causes Court or appropriate civil forum for deposit recovery.", "hi": "जमा वसूली के लिए लघु वाद न्यायालय या उचित सिविल फोरम में सिविल वाद।"}
+      ],
+      "documents": {
+        "type": "deposit_return_notice_or_complaint",
+        "applicable_when": "prior_communication is false OR notice hasn't been sent yet",
+        "en": "Generate a ready-to-edit formal notice to the landlord requesting deposit return. If escalation is needed, generate a complaint draft for the Rent Authority/court instead.",
+        "hi": "मकान मालिक को जमा वापसी हेतु एक तैयार औपचारिक नोटिस तैयार करें। यदि आगे बढ़ने की आवश्यकता हो, तो किराया प्राधिकरण/न्यायालय के लिए शिकायत मसौदा तैयार करें।"
+      },
+      "sources": [
+        {"source_id": "model_tenancy_act_text", "title": "Model Tenancy Act, 2021 (Ministry of Housing and Urban Affairs)", "url": "https://mohua.gov.in/"},
+        {"source_id": "state_rent_control_note", "title": "State-Specific Rent Control Act (lookup required per state)", "url": null}
+      ],
+      "out_of_scope_examples": [
+        {"en": "Eviction disputes or retaliation claims are a separate issue from deposit recovery and are not covered by this workflow.", "hi": "बेदखली विवाद या प्रतिशोध के दावे जमा वसूली से अलग मुद्दा हैं और इस वर्कफ़्लो में शामिल नहीं हैं।"}
       ]
     }
-  ]
+  ],
+  "qa_notes": {
+    "rti": [
+      {
+        "case": "EN: 'I applied for a passport 3 months ago and haven't heard anything. I want to know the status.'",
+        "expected": "Classify as RTI (intent: rti_status_check). Ask department (Passport Seva/MEA — already implied), ask state, ask if already filed before. Should NOT ask info_sought again since it's already clear (passport status)."
+      },
+      {
+        "case": "HI: 'मुझे जानना है कि मेरी शिकायत नगर निगम में क्यों दर्ज नहीं हुई।'",
+        "expected": "Classify as RTI (intent: rti_reason_or_justification). Department already given (नगर निगम/Municipal Corporation) — skip that question, ask state and info_sought detail only."
+      },
+      {
+        "case": "EN: 'I filed an RTI 45 days ago and got no response. What now?'",
+        "expected": "Classify as RTI (intent: rti_no_response_followup). Should route directly to escalation/First Appeal action, NOT restart the fresh-application flow."
+      }
+    ],
+    "tenant": [
+      {
+        "case": "EN: 'My landlord isn't returning my security deposit after I moved out last month.'",
+        "expected": "Classify as Tenant (intent: deposit_withheld_no_reason). Ask all 4 questions since none are pre-answered."
+      },
+      {
+        "case": "HI: 'उसने बिना बताए मेरे डिपॉजिट में से आधा पैसा काट लिया, नुकसान का कोई सबूत नहीं दिखाया।'",
+        "expected": "Classify as Tenant (intent: deposit_partial_deduction_dispute). Emphasize evidence collection (condition_photos) in the result since landlord's claim is disputed."
+      },
+      {
+        "case": "EN: 'It's been 3 months since I vacated and I've messaged him twice with no reply.'",
+        "expected": "Classify as Tenant (intent: deposit_delayed). prior_communication = true already answered — skip that question, route toward escalation step rather than 'send a notice' (already done)."
+      }
+    ]
+  }
 }
